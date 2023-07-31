@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import { Text, Button, Flex, Box, Heading, SimpleGrid } from "@chakra-ui/react";
+import { Text, Button, Flex, Box, Heading, SimpleGrid, Link, useDisclosure } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
-
+import AddMenuItemModal from "../components/AddMenuItem/AddMenuItemModal";
 import background from "../assets/background.jpg";
 import ItemCard from "../components/ItemCard/ItemCard";
 
 const Landing = () => {
   const [isEdit, setIsEdit] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <Box>
@@ -44,15 +45,18 @@ const Landing = () => {
               h="48px"
               justifySelf="center"
             >
-              <Heading size="md">View Menu</Heading>
+              <Heading size="md">
+                <Link href="#menu">
+                  View Menu
+                </Link>
+              </Heading>
             </Button>
-
-            <ChevronDownIcon mt="15px" boxSize="4em" color="white" />
+            <Link href="#menu"><ChevronDownIcon mt="15px" boxSize="4em" color="white" /></Link>
           </Flex>
         </Flex>
       </Flex>
       {/* EDIT BUTTONS */}
-      <Flex justify="flex-end">
+      <Flex justify="flex-end" mr={7} mt={5}>
         {!isEdit ? (
           <Button
             variant="outline"
@@ -64,9 +68,10 @@ const Landing = () => {
           </Button>
         ) : (
           <Flex gap={2}>
-            <Button variant="outline" colorScheme="green" borderRadius="30px">
+            <Button variant="outline" colorScheme="green" borderRadius="30px" onClick={onOpen} mr={5}>
               +
             </Button>
+            <AddMenuItemModal isOpen={isOpen} onClose={onClose}/>
             <Button
               variant="outline"
               colorScheme="green"
@@ -84,53 +89,52 @@ const Landing = () => {
         justifyContent="center"
         alignItems="center"
         mt={10}
+        id="menu"
       >
         <Heading fontSize="4xl" as="b" mb={10}>
           Appetizers
         </Heading>
         <SimpleGrid columns={4} rowGap={1} spacing={50} justifyItems="center">
-          <ItemCard />
-          <ItemCard />
-          <ItemCard />
-          <ItemCard />
-          <ItemCard />
+          <ItemCard isEditable={isEdit}/>
+          <ItemCard isEditable={isEdit}/>
+          <ItemCard isEditable={isEdit}/>
+          <ItemCard isEditable={isEdit}/>
+          <ItemCard isEditable={isEdit}/>
         </SimpleGrid>
 
         <Heading fontSize="4xl" as="b" mb={10}>
           Entrees
         </Heading>
         <SimpleGrid columns={4} rowGap={1} spacing={50} justifyItems="center">
-          <ItemCard />
-          <ItemCard />
-          <ItemCard />
-          <ItemCard />
-          <ItemCard />
-          <ItemCard />
-          <ItemCard />
-          <ItemCard />
+          <ItemCard isEditable={isEdit}/>
+          <ItemCard isEditable={isEdit}/>
+          <ItemCard isEditable={isEdit}/>
+          <ItemCard isEditable={isEdit}/>
+          <ItemCard isEditable={isEdit}/>
+          <ItemCard isEditable={isEdit}/>
+          <ItemCard isEditable={isEdit}/>
+          <ItemCard isEditable={isEdit}/>
         </SimpleGrid>
 
         <Heading fontSize="4xl" as="b" mb={10}>
           Wines
         </Heading>
         <SimpleGrid columns={4} rowGap={1} spacing={50} justifyItems="center">
-          <ItemCard />
-          <ItemCard />
-          <ItemCard />
-          <ItemCard />
+          <ItemCard isEditable={isEdit}/>
+          <ItemCard isEditable={isEdit}/>
+          <ItemCard isEditable={isEdit}/>
+          <ItemCard isEditable={isEdit}/>
         </SimpleGrid>
 
         <Heading fontSize="4xl" as="b" mb={10}>
           Desserts
         </Heading>
         <SimpleGrid columns={4} rowGap={1} spacing={50} justifyItems="center">
-          <ItemCard />
-          <ItemCard />
-          <ItemCard />
-          <ItemCard />
-          <ItemCard />
-          <ItemCard />
-          <ItemCard />
+          <ItemCard isEditable={isEdit}/>
+          <ItemCard isEditable={isEdit}/>
+          <ItemCard isEditable={isEdit}/>
+          <ItemCard isEditable={isEdit}/>
+          <ItemCard isEditable={isEdit}/>
         </SimpleGrid>
       </Flex>
     </Box>

@@ -9,7 +9,7 @@ const Footer = () => {
   return (
     <Box justify="center" minW="100vh">
       <Center fontSize="2vw" as="b" mb={4}>
-        Cruncy Tofu Castle
+        Crunchy Tofu Castle
       </Center>
       <Center mb={2}>
         <Image src={phone} boxSize="2vw"></Image>

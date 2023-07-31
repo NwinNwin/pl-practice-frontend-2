@@ -11,15 +11,18 @@ import {
   Image,
   Heading,
   useDisclosure,
+  Badge
 } from "@chakra-ui/react";
 import item_img from "../../assets/item_img.png";
 import ItemDetailsDrawer from "../ItemDetailsDrawer/ItemDetailsDrawer";
 
-const ItemCard = () => {
+const ItemCard = ({ itemData, isEditable }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <>
+    <Box>
+      <Button float="right" colorScheme="red" variant="outline" borderRadius={25} bg="rgba(249, 244, 234, 1)"
+              textAlign="center" w="2" h="10" mt={-7} ml={-7} onClick={()=> console.log('kill me :)')}> — </Button>
       <Card
         bg="rgba(249, 244, 234, 1)"
         width="20vw"
@@ -58,7 +61,7 @@ const ItemCard = () => {
         </CardBody>
       </Card>
       <ItemDetailsDrawer isOpen={isOpen} onClose={onClose} />
-    </>
+    </Box>
   );
 };
 
