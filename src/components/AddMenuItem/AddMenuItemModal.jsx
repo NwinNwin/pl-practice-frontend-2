@@ -1,4 +1,5 @@
 import React from "react";
+
 import { Modal, ModalOverlay, ModalContent, ModalBody,
         ModalFooter, Button, Flex, Box,
         Text, Input, Divider, Select, Heading, Grid, GridItem,
@@ -9,15 +10,39 @@ import { Modal, ModalOverlay, ModalContent, ModalBody,
         NumberDecrementStepper,
         Link 
     } from "@chakra-ui/react";
+
+import { Backend } from '../../utils/utils';
+
+import { useForm } from 'react-hook-form';
+
 import { ArrowBackIcon } from '@chakra-ui/icons'
 
 
-const AddMenuItemModal = ({isOpen, onClose, onOpen}) => {
+const AddMenuItemModal = ({ isOpen, onClose, updateItemCardData }) => {
+    const { register, handleSubmit, watch, formState: { errors } } = useForm();
+
+    const onSubmit = async (data) => {
+        const result = await Backend.post('/menuItem/add-menu-item', data);
+        console.log(result);
+        updateItemCardData();
+        onClose();
+    };
+
+    const transformFieldName = (str) => {
+        // Convert the nutrionalTypes to a valid field name
+        let transformedStr = str.toLowerCase();
+        transformedStr = transformedStr.replace(/\([^)]+\)/g, '');
+        transformedStr = transformedStr.trim();
+        transformedStr = transformedStr.replace(/\s+/g, '_');
+      
+        return transformedStr;
+      };
+
     const showNutritionalInformation = () => {
 
         const nutritionalTypes = ['Calories','Total Fat (g)',
-        'Saturated Fat (g)', 'Cholesterol (mg)', 'Total Carbs (g)', 'Dietary Fiber (g)',
-        'Sugars (g)', 'Protein (g)'];
+        'Saturated Fat (g)', 'Sodium (mg)', 'Total Carbs (g)', 'Dietary Fiber (g)',
+        'Sugar (g)', 'Protein (g)'];
         
         return nutritionalTypes.map( category => 
             <>
@@ -26,7 +51,7 @@ const AddMenuItemModal = ({isOpen, onClose, onOpen}) => {
             </GridItem>
             <GridItem>
                 <NumberInput>
-                    <NumberInputField />
+                    <NumberInputField {...register(transformFieldName(category))} />
                     <NumberInputStepper>
                         <NumberIncrementStepper />
                         <NumberDecrementStepper />
@@ -36,7 +61,8 @@ const AddMenuItemModal = ({isOpen, onClose, onOpen}) => {
             </>
         )
         
-    }
+    };
+
     return (
     <Modal isOpen={isOpen} onClose={onClose} size="full">
         <ModalOverlay />
@@ -54,11 +80,11 @@ const AddMenuItemModal = ({isOpen, onClose, onOpen}) => {
                     </Heading>
                     <Box ml={8} mb={10}>
                         <Text>Item Name</Text>
-                        <Input width="80%" />
+                        <Input width="80%" {...register('name')} />
                     </Box>
                     <Box ml={8} mb={10}>
                         <Text>Description</Text>
-                        <Input width="80%" height="20vh" />
+                        <Input width="80%" height="20vh" {...register('description')} />
                     </Box>
                     <Box ml={8} mb={10}>
                         <Text>Upload Image</Text>
@@ -66,14 +92,20 @@ const AddMenuItemModal = ({isOpen, onClose, onOpen}) => {
                     </Box>
                     <Box ml={8} mb={10}>
                         <Text>Item Tags</Text>
-                        <Select width="50%">
-                            <option>Option 1</option>
+                        <Select width="50%" {...register('tags')}>
+                            <option>None</option>
+                            <option>Gluten Free</option>
+                            <option>Vegan</option>
+                            <option>Organic</option>
                         </Select>
                     </Box>
                     <Box ml={8} mb={10}>
                         <Text>Item Type</Text>
-                        <Select width="50%" placeholder="Item Tag">
-                            <option>Option 1</option>
+                        <Select width="50%" {...register('type')}>
+                            <option>Appetizer</option>
+                            <option>Entree</option>
+                            <option>Wine</option>
+                            <option>Dessert</option>
                         </Select>
                     </Box>
                 </Box>
@@ -90,7 +122,7 @@ const AddMenuItemModal = ({isOpen, onClose, onOpen}) => {
             <Button colorScheme='blue' mr={3} onClick={onClose}>
               Close
             </Button>
-            <Button colorScheme="green">Save</Button>
+            <Button colorScheme="green" onClick={handleSubmit(onSubmit)}>Save</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

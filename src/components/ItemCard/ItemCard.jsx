@@ -16,8 +16,12 @@ import {
 import item_img from "../../assets/item_img.png";
 import ItemDetailsDrawer from "../ItemDetailsDrawer/ItemDetailsDrawer";
 
-const ItemCard = ({ itemData, isEditable }) => {
+const ItemCard = ({ id, name, description, tags, type, calories, totalFat, saturatedFat, sodium, carbs, fiber, sugar, protein, isEditable }) => {
+  // const { id, name, description, tags, type, calories, total_fat, saturated_fat, sodium, carbs, fiber, sugar, protein } = itemData;
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  // Why is it a string bruh ._.
+  const tagArray = tags?.split(', ');
 
   return (
     <Box>
@@ -33,30 +37,22 @@ const ItemCard = ({ itemData, isEditable }) => {
         <Image borderTopRadius="10px" src={item_img} />
         <CardBody>
           <Heading fontSize="20px" marginBottom={3}>
-            Sesame Salad
+            {name}
           </Heading>
           <Flex gap={2} marginBottom={3}>
-            <Tag
-              bg="rgba(52, 78, 65, 1)"
-              size="lg"
-              color="white"
-              borderRadius="30px"
-            >
-              Gluten Free
-            </Tag>
-            <Tag
-              bg="rgba(52, 78, 65, 1)"
-              size="lg"
-              color="white"
-              borderRadius="30px"
-            >
-              Vegan
-            </Tag>
+            {tagArray?.map((tag) => (tag != 'None') && (
+              <Tag
+                bg="rgba(52, 78, 65, 1)"
+                size="lg"
+                color="white"
+                borderRadius="30px"
+              >
+                {tag}
+              </Tag>
+            ))}
           </Flex>
           <Text>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            {description}
           </Text>
         </CardBody>
       </Card>
